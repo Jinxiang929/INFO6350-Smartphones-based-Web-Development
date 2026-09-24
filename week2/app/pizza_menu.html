@@ -1,0 +1,441 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Pizza Menu</title>
+  <style>
+    :root {
+      --bg1: #0b1020;
+      --bg2: #0f1733;
+      --card: rgba(255,255,255,0.06);
+      --card2: rgba(255,255,255,0.08);
+      --stroke: rgba(255,255,255,0.12);
+      --text: rgba(255,255,255,0.92);
+      --muted: rgba(255,255,255,0.68);
+      --muted2: rgba(255,255,255,0.52);
+      --accent: #ffb703;
+      --accent2: #fb7185;
+      --good: #22c55e;
+      --shadow: 0 20px 50px rgba(0,0,0,0.35);
+      --radius: 18px;
+      --radius2: 14px;
+      --mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+      --sans: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Arial, "Apple Color Emoji", "Segoe UI Emoji";
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: var(--sans);
+      color: var(--text);
+      background:
+        radial-gradient(1200px 800px at 20% 10%, rgba(251, 113, 133, 0.25), transparent 60%),
+        radial-gradient(1000px 700px at 80% 30%, rgba(255, 183, 3, 0.25), transparent 55%),
+        linear-gradient(160deg, var(--bg1), var(--bg2));
+      min-height: 100vh;
+    }
+    .wrap {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 32px 18px 60px;
+    }
+    header {
+      display: flex;
+      gap: 18px;
+      align-items: flex-end;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      margin-bottom: 22px;
+    }
+    .hero {
+      display: grid;
+      gap: 8px;
+    }
+    h1 {
+      margin: 0;
+      font-size: 34px;
+      letter-spacing: 0.2px;
+      line-height: 1.1;
+    }
+    .sub {
+      margin: 0;
+      color: var(--muted);
+      font-size: 14px;
+      line-height: 1.4;
+    }
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 10px 12px;
+      border: 1px solid var(--stroke);
+      background: rgba(255,255,255,0.05);
+      border-radius: 999px;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.22);
+      color: var(--muted);
+      font-size: 13px;
+    }
+    .badge strong { color: var(--text); }
+    .nav {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      margin: 18px 0 0;
+    }
+    .nav a {
+      text-decoration: none;
+      color: var(--text);
+      border: 1px solid var(--stroke);
+      background: rgba(255,255,255,0.04);
+      padding: 8px 10px;
+      border-radius: 999px;
+      font-size: 13px;
+      transition: transform 120ms ease, background 120ms ease;
+    }
+    .nav a:hover {
+      transform: translateY(-1px);
+      background: rgba(255,255,255,0.07);
+    }
+    .card {
+      border: 1px solid var(--stroke);
+      background: linear-gradient(180deg, var(--card), rgba(255,255,255,0.03));
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      padding: 18px;
+      margin-top: 16px;
+      overflow: hidden;
+      position: relative;
+    }
+    .card::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(700px 240px at 20% 0%, rgba(255,183,3,0.12), transparent 55%);
+      pointer-events: none;
+    }
+    .card-header {
+      display: grid;
+      grid-template-columns: 1.35fr 0.65fr;
+      gap: 16px;
+      position: relative;
+      z-index: 1;
+    }
+    @media (max-width: 860px) {
+      .card-header { grid-template-columns: 1fr; }
+    }
+    h2 {
+      margin: 0;
+      font-size: 22px;
+      letter-spacing: 0.2px;
+    }
+    .desc {
+      margin: 8px 0 10px;
+      color: var(--muted);
+      line-height: 1.45;
+      font-size: 14px;
+    }
+    .meta {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      align-items: center;
+    }
+    .pill {
+      border: 1px solid var(--stroke);
+      background: rgba(255,255,255,0.05);
+      padding: 7px 10px;
+      border-radius: 999px;
+      font-size: 13px;
+      color: var(--muted);
+    }
+    .pill strong { color: var(--text); }
+    .pill.subtle code {
+      font-family: var(--mono);
+      color: rgba(255,255,255,0.75);
+      font-size: 12px;
+    }
+    .image-wrap {
+      border: 1px dashed rgba(255,255,255,0.18);
+      background: rgba(255,255,255,0.03);
+      border-radius: var(--radius2);
+      padding: 12px;
+      position: relative;
+      min-height: 116px;
+    }
+    .image-badge {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      font-size: 12px;
+      color: rgba(255,255,255,0.70);
+      border: 1px solid rgba(255,255,255,0.14);
+      background: rgba(0,0,0,0.18);
+      padding: 6px 9px;
+      border-radius: 999px;
+      backdrop-filter: blur(6px);
+    }
+    .image-placeholder {
+      display: grid;
+      gap: 8px;
+      align-content: center;
+      height: 100%;
+      padding: 6px 2px 2px;
+    }
+    .img-icon {
+      font-size: 28px;
+      filter: drop-shadow(0 10px 15px rgba(0,0,0,0.25));
+    }
+    .img-url {
+      font-family: var(--mono);
+      font-size: 12px;
+      color: rgba(255,255,255,0.72);
+      word-break: break-word;
+      line-height: 1.35;
+    }
+    .grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+      margin-top: 14px;
+      position: relative;
+      z-index: 1;
+    }
+    @media (max-width: 860px) {
+      .grid { grid-template-columns: 1fr; }
+    }
+    .panel {
+      border: 1px solid var(--stroke);
+      background: rgba(255,255,255,0.04);
+      border-radius: var(--radius2);
+      overflow: hidden;
+    }
+    .panel-title {
+      padding: 10px 12px;
+      font-weight: 600;
+      letter-spacing: 0.2px;
+      font-size: 13px;
+      border-bottom: 1px solid rgba(255,255,255,0.10);
+      background: linear-gradient(90deg, rgba(255,183,3,0.12), rgba(251,113,133,0.10));
+    }
+    table.tbl {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 13px;
+    }
+    .tbl th, .tbl td {
+      padding: 10px 12px;
+      border-bottom: 1px solid rgba(255,255,255,0.08);
+    }
+    .tbl thead th {
+      text-align: left;
+      color: rgba(255,255,255,0.78);
+      font-weight: 600;
+      background: rgba(255,255,255,0.03);
+    }
+    .tbl tbody tr:hover td {
+      background: rgba(255,255,255,0.04);
+    }
+    .num {
+      text-align: right;
+      white-space: nowrap;
+      font-variant-numeric: tabular-nums;
+    }
+    .muted {
+      color: var(--muted2);
+      text-align: center;
+      padding: 16px 12px;
+    }
+    footer {
+      margin-top: 22px;
+      color: rgba(255,255,255,0.55);
+      font-size: 12px;
+      text-align: center;
+    }
+    .note {
+      margin-top: 6px;
+      color: rgba(255,255,255,0.55);
+      font-size: 12px;
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <header>
+      <div class="hero">
+        <h1>Pizza Menu</h1>
+        <p class="sub">A simple, styled HTML view generated from your JSON/XML data (3 pizzas, sizes, toppings, prices, and image URLs).</p>
+        <div class="nav">
+          <a href="#pizza_margherita">Margherita Pizza</a><a href="#pizza_pepperoni">Pepperoni Pizza</a><a href="#pizza_veggie">Veggie Supreme Pizza</a>
+        </div>
+      </div>
+      <div class="badge">
+        <span>Currency:</span> <strong>USD</strong>
+        <span style="opacity:.55;">•</span>
+        <span>Items:</span> <strong>3</strong>
+      </div>
+    </header>
+
+    
+    <section class="card" id="pizza_margherita">
+      <div class="card-header">
+        <div class="title-wrap">
+          <h2>Margherita Pizza</h2>
+          <p class="desc">Classic pizza with tomato sauce, fresh mozzarella, and basil</p>
+          <div class="meta">
+            <span class="pill">Base: <strong>$10.99</strong></span>
+            <span class="pill subtle">ID: <code>pizza_margherita</code></span>
+          </div>
+        </div>
+
+        <div class="image-wrap">
+          <div class="image-badge">Image URL</div>
+          <div class="image-placeholder">
+            <div class="img-icon">🍕</div>
+            <div class="img-url">https://example.com/images/pizza-margherita.jpg</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="grid">
+        <div class="panel">
+          <div class="panel-title">Available Sizes</div>
+          <table class="tbl">
+            <thead>
+              <tr><th>Size</th><th class="num">Price</th></tr>
+            </thead>
+            <tbody>
+              <tr><td>Small</td><td class='num'>$8.99</td></tr>
+<tr><td>Medium</td><td class='num'>$10.99</td></tr>
+<tr><td>Large</td><td class='num'>$13.99</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="panel">
+          <div class="panel-title">Toppings</div>
+          <table class="tbl">
+            <thead>
+              <tr><th>Topping</th><th class="num">Price</th></tr>
+            </thead>
+            <tbody>
+              <tr><td>Extra Cheese</td><td class='num'>$1.50</td></tr>
+<tr><td>Fresh Basil</td><td class='num'>$1.00</td></tr>
+<tr><td>Olives</td><td class='num'>$1.25</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+    
+    <section class="card" id="pizza_pepperoni">
+      <div class="card-header">
+        <div class="title-wrap">
+          <h2>Pepperoni Pizza</h2>
+          <p class="desc">Tomato sauce, mozzarella, and premium pepperoni slices</p>
+          <div class="meta">
+            <span class="pill">Base: <strong>$12.99</strong></span>
+            <span class="pill subtle">ID: <code>pizza_pepperoni</code></span>
+          </div>
+        </div>
+
+        <div class="image-wrap">
+          <div class="image-badge">Image URL</div>
+          <div class="image-placeholder">
+            <div class="img-icon">🍕</div>
+            <div class="img-url">https://example.com/images/pizza-pepperoni.jpg</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="grid">
+        <div class="panel">
+          <div class="panel-title">Available Sizes</div>
+          <table class="tbl">
+            <thead>
+              <tr><th>Size</th><th class="num">Price</th></tr>
+            </thead>
+            <tbody>
+              <tr><td>Small</td><td class='num'>$10.99</td></tr>
+<tr><td>Medium</td><td class='num'>$12.99</td></tr>
+<tr><td>Large</td><td class='num'>$15.99</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="panel">
+          <div class="panel-title">Toppings</div>
+          <table class="tbl">
+            <thead>
+              <tr><th>Topping</th><th class="num">Price</th></tr>
+            </thead>
+            <tbody>
+              <tr><td>Extra Pepperoni</td><td class='num'>$2.00</td></tr>
+<tr><td>Mushrooms</td><td class='num'>$1.50</td></tr>
+<tr><td>Onions</td><td class='num'>$1.25</td></tr>
+<tr><td>Extra Cheese</td><td class='num'>$1.50</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+    
+    <section class="card" id="pizza_veggie">
+      <div class="card-header">
+        <div class="title-wrap">
+          <h2>Veggie Supreme Pizza</h2>
+          <p class="desc">Loaded with bell peppers, onions, mushrooms, olives, and mozzarella</p>
+          <div class="meta">
+            <span class="pill">Base: <strong>$13.49</strong></span>
+            <span class="pill subtle">ID: <code>pizza_veggie</code></span>
+          </div>
+        </div>
+
+        <div class="image-wrap">
+          <div class="image-badge">Image URL</div>
+          <div class="image-placeholder">
+            <div class="img-icon">🍕</div>
+            <div class="img-url">https://example.com/images/pizza-veggie.jpg</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="grid">
+        <div class="panel">
+          <div class="panel-title">Available Sizes</div>
+          <table class="tbl">
+            <thead>
+              <tr><th>Size</th><th class="num">Price</th></tr>
+            </thead>
+            <tbody>
+              <tr><td>Small</td><td class='num'>$11.49</td></tr>
+<tr><td>Medium</td><td class='num'>$13.49</td></tr>
+<tr><td>Large</td><td class='num'>$16.49</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="panel">
+          <div class="panel-title">Toppings</div>
+          <table class="tbl">
+            <thead>
+              <tr><th>Topping</th><th class="num">Price</th></tr>
+            </thead>
+            <tbody>
+              <tr><td>Spinach</td><td class='num'>$1.25</td></tr>
+<tr><td>Sun-dried Tomatoes</td><td class='num'>$1.75</td></tr>
+<tr><td>Feta Cheese</td><td class='num'>$1.75</td></tr>
+<tr><td>Jalapeños</td><td class='num'>$1.25</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+    
+
+    <footer>
+      Generated HTML Menu • Data source: Pizza sample dataset
+      <div class="note">Tip: Replace example.com image URLs with real image links to show actual images.</div>
+    </footer>
+  </div>
+</body>
+</html>

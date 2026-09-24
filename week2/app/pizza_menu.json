@@ -1,0 +1,121 @@
+{
+  "menu": {
+    "category": "Pizza",
+    "currency": "USD",
+    "items": [
+      {
+        "id": "pizza_margherita",
+        "name": "Margherita Pizza",
+        "description": "Classic pizza with tomato sauce, fresh mozzarella, and basil",
+        "basePrice": 10.99,
+        "imageUrl": "https://example.com/images/pizza-margherita.jpg",
+        "availableSizes": [
+          {
+            "size": "Small",
+            "price": 8.99
+          },
+          {
+            "size": "Medium",
+            "price": 10.99
+          },
+          {
+            "size": "Large",
+            "price": 13.99
+          }
+        ],
+        "toppings": [
+          {
+            "name": "Extra Cheese",
+            "price": 1.5
+          },
+          {
+            "name": "Fresh Basil",
+            "price": 1.0
+          },
+          {
+            "name": "Olives",
+            "price": 1.25
+          }
+        ]
+      },
+      {
+        "id": "pizza_pepperoni",
+        "name": "Pepperoni Pizza",
+        "description": "Tomato sauce, mozzarella, and premium pepperoni slices",
+        "basePrice": 12.99,
+        "imageUrl": "https://example.com/images/pizza-pepperoni.jpg",
+        "availableSizes": [
+          {
+            "size": "Small",
+            "price": 10.99
+          },
+          {
+            "size": "Medium",
+            "price": 12.99
+          },
+          {
+            "size": "Large",
+            "price": 15.99
+          }
+        ],
+        "toppings": [
+          {
+            "name": "Extra Pepperoni",
+            "price": 2.0
+          },
+          {
+            "name": "Mushrooms",
+            "price": 1.5
+          },
+          {
+            "name": "Onions",
+            "price": 1.25
+          },
+          {
+            "name": "Extra Cheese",
+            "price": 1.5
+          }
+        ]
+      },
+      {
+        "id": "pizza_veggie",
+        "name": "Veggie Supreme Pizza",
+        "description": "Loaded with bell peppers, onions, mushrooms, olives, and mozzarella",
+        "basePrice": 13.49,
+        "imageUrl": "https://example.com/images/pizza-veggie.jpg",
+        "availableSizes": [
+          {
+            "size": "Small",
+            "price": 11.49
+          },
+          {
+            "size": "Medium",
+            "price": 13.49
+          },
+          {
+            "size": "Large",
+            "price": 16.49
+          }
+        ],
+        "toppings": [
+          {
+            "name": "Spinach",
+            "price": 1.25
+          },
+          {
+            "name": "Sun-dried Tomatoes",
+            "price": 1.75
+          },
+          {
+            "name": "Feta Cheese",
+            "price": 1.75
+          },
+          {
+            "name": "Jalape\u00f1os",
+            "price": 1.25
+          }
+        ]
+      }
+    ]
+  }
+}

@@ -1,0 +1,318 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Pizza Menu (HTML reads JSON)</title>
+  <style>
+    :root{
+      --bg1:#0b1020; --bg2:#0f1733;
+      --card:rgba(255,255,255,.06);
+      --stroke:rgba(255,255,255,.12);
+      --text:rgba(255,255,255,.92);
+      --muted:rgba(255,255,255,.68);
+      --muted2:rgba(255,255,255,.52);
+      --shadow:0 20px 50px rgba(0,0,0,.35);
+      --radius:18px; --radius2:14px;
+      --mono:ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono","Courier New", monospace;
+      --sans:ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Arial;
+    }
+    *{box-sizing:border-box}
+    body{
+      margin:0; font-family:var(--sans); color:var(--text);
+      background:
+        radial-gradient(1200px 800px at 20% 10%, rgba(251,113,133,.25), transparent 60%),
+        radial-gradient(1000px 700px at 80% 30%, rgba(255,183,3,.25), transparent 55%),
+        linear-gradient(160deg, var(--bg1), var(--bg2));
+      min-height:100vh;
+    }
+    .wrap{max-width:1100px; margin:0 auto; padding:32px 18px 60px;}
+    header{display:flex; gap:18px; align-items:flex-end; justify-content:space-between; flex-wrap:wrap; margin-bottom:18px;}
+    h1{margin:0; font-size:34px; line-height:1.1;}
+    .sub{margin:8px 0 0; color:var(--muted); font-size:14px; line-height:1.4; max-width:66ch;}
+    .badge{
+      display:inline-flex; align-items:center; gap:10px;
+      padding:10px 12px; border:1px solid var(--stroke);
+      background:rgba(255,255,255,.05); border-radius:999px;
+      box-shadow:0 10px 25px rgba(0,0,0,.22);
+      color:var(--muted); font-size:13px;
+    }
+    .badge strong{color:var(--text)}
+    .toolbar{
+      display:flex; gap:10px; flex-wrap:wrap; align-items:center;
+      margin-top:14px;
+    }
+    .btn{
+      border:1px solid var(--stroke);
+      background:rgba(255,255,255,.04);
+      color:var(--text);
+      padding:8px 10px;
+      border-radius:999px;
+      font-size:13px;
+      cursor:pointer;
+      transition:transform 120ms ease, background 120ms ease;
+    }
+    .btn:hover{transform:translateY(-1px); background:rgba(255,255,255,.07)}
+    input[type="text"]{
+      width:min(520px, 100%);
+      border:1px solid var(--stroke);
+      background:rgba(0,0,0,.12);
+      color:var(--text);
+      padding:9px 12px;
+      border-radius:999px;
+      outline:none;
+      font-size:13px;
+    }
+    .hint{color:var(--muted2); font-size:12px; margin-top:6px;}
+    .nav{display:flex; gap:10px; flex-wrap:wrap; margin:18px 0 0;}
+    .nav a{
+      text-decoration:none; color:var(--text);
+      border:1px solid var(--stroke);
+      background:rgba(255,255,255,.04);
+      padding:8px 10px; border-radius:999px;
+      font-size:13px;
+      transition:transform 120ms ease, background 120ms ease;
+    }
+    .nav a:hover{transform:translateY(-1px); background:rgba(255,255,255,.07)}
+    .card{
+      border:1px solid var(--stroke);
+      background:linear-gradient(180deg, var(--card), rgba(255,255,255,.03));
+      border-radius:var(--radius);
+      box-shadow:var(--shadow);
+      padding:18px;
+      margin-top:16px;
+      overflow:hidden;
+      position:relative;
+    }
+    .card::before{
+      content:"";
+      position:absolute; inset:0;
+      background:radial-gradient(700px 240px at 20% 0%, rgba(255,183,3,.12), transparent 55%);
+      pointer-events:none;
+    }
+    .card-header{display:grid; grid-template-columns:1.35fr 0.65fr; gap:16px; position:relative; z-index:1;}
+    @media (max-width:860px){.card-header{grid-template-columns:1fr}}
+    h2{margin:0; font-size:22px; letter-spacing:.2px}
+    .desc{margin:8px 0 10px; color:var(--muted); line-height:1.45; font-size:14px;}
+    .meta{display:flex; gap:10px; flex-wrap:wrap; align-items:center;}
+    .pill{
+      border:1px solid var(--stroke);
+      background:rgba(255,255,255,.05);
+      padding:7px 10px;
+      border-radius:999px;
+      font-size:13px;
+      color:var(--muted);
+    }
+    .pill strong{color:var(--text)}
+    .pill code{font-family:var(--mono); color:rgba(255,255,255,.75); font-size:12px;}
+    .image-wrap{
+      border:1px dashed rgba(255,255,255,.18);
+      background:rgba(255,255,255,.03);
+      border-radius:var(--radius2);
+      padding:12px;
+      position:relative;
+      min-height:116px;
+      display:grid;
+      align-content:center;
+      gap:8px;
+    }
+    .image-badge{
+      position:absolute; top:10px; right:10px;
+      font-size:12px; color:rgba(255,255,255,.70);
+      border:1px solid rgba(255,255,255,.14);
+      background:rgba(0,0,0,.18);
+      padding:6px 9px; border-radius:999px;
+      backdrop-filter:blur(6px);
+    }
+    .img-url{font-family:var(--mono); font-size:12px; color:rgba(255,255,255,.72); word-break:break-word; line-height:1.35;}
+    .grid{display:grid; grid-template-columns:1fr 1fr; gap:14px; margin-top:14px; position:relative; z-index:1;}
+    @media (max-width:860px){.grid{grid-template-columns:1fr}}
+    .panel{
+      border:1px solid var(--stroke);
+      background:rgba(255,255,255,.04);
+      border-radius:var(--radius2);
+      overflow:hidden;
+    }
+    .panel-title{
+      padding:10px 12px;
+      font-weight:600;
+      letter-spacing:.2px;
+      font-size:13px;
+      border-bottom:1px solid rgba(255,255,255,.10);
+      background:linear-gradient(90deg, rgba(255,183,3,.12), rgba(251,113,133,.10));
+    }
+    table.tbl{width:100%; border-collapse:collapse; font-size:13px;}
+    .tbl th, .tbl td{padding:10px 12px; border-bottom:1px solid rgba(255,255,255,.08);}
+    .tbl thead th{text-align:left; color:rgba(255,255,255,.78); font-weight:600; background:rgba(255,255,255,.03);}
+    .tbl tbody tr:hover td{background:rgba(255,255,255,.04);}
+    .num{text-align:right; white-space:nowrap; font-variant-numeric:tabular-nums;}
+    .muted{color:var(--muted2); text-align:center; padding:16px 12px;}
+    .error{
+      border:1px solid rgba(251,113,133,.35);
+      background:rgba(251,113,133,.08);
+      color:rgba(255,255,255,.88);
+      padding:12px 14px;
+      border-radius:14px;
+      margin-top:14px;
+      line-height:1.35;
+    }
+    footer{margin-top:22px; color:rgba(255,255,255,.55); font-size:12px; text-align:center;}
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <header>
+      <div>
+        <h1 id="title">Pizza Menu</h1>
+        <p class="sub">
+          This HTML file reads <code style="font-family:var(--mono)">pizza_menu.json</code> (data file) and renders it as a styled menu.
+        </p>
+        <div class="toolbar">
+          <input id="jsonPath" type="text" value="./pizza_menu.json" />
+          <button class="btn" id="loadBtn">Load JSON</button>
+        </div>
+        <div class="hint">
+          If you open this as <code style="font-family:var(--mono)">file://</code>, some browsers block <code>fetch()</code>.
+          Use a local server (example: <code style="font-family:var(--mono)">python -m http.server</code>) and open <code>http://localhost:8000</code>.
+        </div>
+        <div class="nav" id="nav"></div>
+      </div>
+
+      <div class="badge" id="badge" aria-live="polite">
+        <span>Currency:</span> <strong id="currency">—</strong>
+        <span style="opacity:.55;">•</span>
+        <span>Items:</span> <strong id="count">—</strong>
+      </div>
+    </header>
+
+    <main id="content"></main>
+
+    <footer>
+      PizzaHTML2ReadsDATA • Data/Format separated (JSON + HTML)
+    </footer>
+  </div>
+
+<script>
+  function money(value, currency) {
+    if (currency === "USD") return "$" + Number(value).toFixed(2);
+    return Number(value).toFixed(2) + " " + currency;
+  }
+
+  function escapeHtml(str) {
+    return String(str)
+      .replaceAll("&", "&amp;")
+      .replaceAll("<", "&lt;")
+      .replaceAll(">", "&gt;")
+      .replaceAll('"', "&quot;")
+      .replaceAll("'", "&#039;");
+  }
+
+  function renderMenu(data) {
+    const menu = data.menu;
+    const currency = menu.currency || "USD";
+
+    document.getElementById("title").textContent = menu.category + " Menu";
+    document.getElementById("currency").textContent = currency;
+    document.getElementById("count").textContent = (menu.items || []).length;
+
+    // Nav chips
+    const nav = document.getElementById("nav");
+    nav.innerHTML = "";
+    for (const item of (menu.items || [])) {
+      const a = document.createElement("a");
+      a.href = "#" + item.id;
+      a.textContent = item.name;
+      nav.appendChild(a);
+    }
+
+    const content = document.getElementById("content");
+    content.innerHTML = "";
+
+    for (const item of (menu.items || [])) {
+      const sizesRows = (item.availableSizes || []).map(s =>
+        `<tr><td>${escapeHtml(s.size)}</td><td class="num">${money(s.price, currency)}</td></tr>`
+      ).join("") || `<tr><td colspan="2" class="muted">No sizes listed</td></tr>`;
+
+      const toppingsRows = (item.toppings || []).map(t =>
+        `<tr><td>${escapeHtml(t.name)}</td><td class="num">${money(t.price, currency)}</td></tr>`
+      ).join("") || `<tr><td colspan="2" class="muted">No toppings listed</td></tr>`;
+
+      const section = document.createElement("section");
+      section.className = "card";
+      section.id = item.id;
+
+      section.innerHTML = `
+        <div class="card-header">
+          <div>
+            <h2>${escapeHtml(item.name)}</h2>
+            <p class="desc">${escapeHtml(item.description || "")}</p>
+            <div class="meta">
+              <span class="pill">Base: <strong>${money(item.basePrice, currency)}</strong></span>
+              <span class="pill"><span style="opacity:.8">ID:</span> <code>${escapeHtml(item.id)}</code></span>
+            </div>
+          </div>
+
+          <div class="image-wrap">
+            <div class="image-badge">Image URL</div>
+            <div style="font-size:28px; filter:drop-shadow(0 10px 15px rgba(0,0,0,.25))">🍕</div>
+            <div class="img-url">${escapeHtml(item.imageUrl || "")}</div>
+          </div>
+        </div>
+
+        <div class="grid">
+          <div class="panel">
+            <div class="panel-title">Available Sizes</div>
+            <table class="tbl">
+              <thead><tr><th>Size</th><th class="num">Price</th></tr></thead>
+              <tbody>${sizesRows}</tbody>
+            </table>
+          </div>
+
+          <div class="panel">
+            <div class="panel-title">Toppings</div>
+            <table class="tbl">
+              <thead><tr><th>Topping</th><th class="num">Price</th></tr></thead>
+              <tbody>${toppingsRows}</tbody>
+            </table>
+          </div>
+        </div>
+      `;
+
+      content.appendChild(section);
+    }
+  }
+
+  async function loadJson(path) {
+    const content = document.getElementById("content");
+    content.innerHTML = "";
+    try {
+      const res = await fetch(path, { cache: "no-store" });
+      if (!res.ok) throw new Error("HTTP " + res.status + " while fetching: " + path);
+      const data = await res.json();
+      renderMenu(data);
+    } catch (err) {
+      content.innerHTML = `
+        <div class="error">
+          <strong>Could not load JSON.</strong><br/>
+          ${escapeHtml(String(err))}<br/><br/>
+          <span style="color:rgba(255,255,255,.72)">
+            Make sure <code>PizzaHTML2ReadsDATA.html</code> and <code>pizza_menu.json</code> are in the same folder,
+            and open using a local server (not <code>file://</code>).
+          </span>
+        </div>`;
+      document.getElementById("currency").textContent = "—";
+      document.getElementById("count").textContent = "—";
+      document.getElementById("nav").innerHTML = "";
+      document.getElementById("title").textContent = "Pizza Menu";
+    }
+  }
+
+  document.getElementById("loadBtn").addEventListener("click", () => {
+    loadJson(document.getElementById("jsonPath").value.trim());
+  });
+
+  // Auto-load on page open
+  loadJson(document.getElementById("jsonPath").value.trim());
+</script>
+</body>
+</html>

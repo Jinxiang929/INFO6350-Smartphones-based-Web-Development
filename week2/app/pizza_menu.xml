@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<menu>
+  <category>Pizza</category>
+  <currency>USD</currency>
+
+  <items>
+    <item>
+      <id>pizza_margherita</id>
+      <name>Margherita Pizza</name>
+      <description>Classic pizza with tomato sauce, fresh mozzarella, and basil</description>
+      <basePrice>10.99</basePrice>
+      <imageUrl>https://example.com/images/pizza-margherita.jpg</imageUrl>
+
+      <availableSizes>
+        <size>
+          <name>Small</name>
+          <price>8.99</price>
+        </size>
+        <size>
+          <name>Medium</name>
+          <price>10.99</price>
+        </size>
+        <size>
+          <name>Large</name>
+          <price>13.99</price>
+        </size>
+      </availableSizes>
+
+      <toppings>
+        <topping>
+          <name>Extra Cheese</name>
+          <price>1.50</price>
+        </topping>
+        <topping>
+          <name>Fresh Basil</name>
+          <price>1.00</price>
+        </topping>
+        <topping>
+          <name>Olives</name>
+          <price>1.25</price>
+        </topping>
+      </toppings>
+    </item>
+
+    <item>
+      <id>pizza_pepperoni</id>
+      <name>Pepperoni Pizza</name>
+      <description>Tomato sauce, mozzarella, and premium pepperoni slices</description>
+      <basePrice>12.99</basePrice>
+      <imageUrl>https://example.com/images/pizza-pepperoni.jpg</imageUrl>
+
+      <availableSizes>
+        <size>
+          <name>Small</name>
+          <price>10.99</price>
+        </size>
+        <size>
+          <name>Medium</name>
+          <price>12.99</price>
+        </size>
+        <size>
+          <name>Large</name>
+          <price>15.99</price>
+        </size>
+      </availableSizes>
+
+      <toppings>
+        <topping>
+          <name>Extra Pepperoni</name>
+          <price>2.00</price>
+        </topping>
+        <topping>
+          <name>Mushrooms</name>
+          <price>1.50</price>
+        </topping>
+        <topping>
+          <name>Onions</name>
+          <price>1.25</price>
+        </topping>
+        <topping>
+          <name>Extra Cheese</name>
+          <price>1.50</price>
+        </topping>
+      </toppings>
+    </item>
+
+    <item>
+      <id>pizza_veggie</id>
+      <name>Veggie Supreme Pizza</name>
+      <description>Loaded with bell peppers, onions, mushrooms, olives, and mozzarella</description>
+      <basePrice>13.49</basePrice>
+      <imageUrl>https://example.com/images/pizza-veggie.jpg</imageUrl>
+
+      <availableSizes>
+        <size>
+          <name>Small</name>
+          <price>11.49</price>
+        </size>
+        <size>
+          <name>Medium</name>
+          <price>13.49</price>
+        </size>
+        <size>
+          <name>Large</name>
+          <price>16.49</price>
+        </size>
+      </availableSizes>
+
+      <toppings>
+        <topping>
+          <name>Spinach</name>
+          <price>1.25</price>
+        </topping>
+        <topping>
+          <name>Sun-dried Tomatoes</name>
+          <price>1.75</price>
+        </topping>
+        <topping>
+          <name>Feta Cheese</name>
+          <price>1.75</price>
+        </topping>
+        <topping>
+          <name>Jalapeños</name>
+          <price>1.25</price>
+        </topping>
+      </toppings>
+    </item>
+  </items>
+</menu>
