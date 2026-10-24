@@ -1,0 +1,5 @@
+Flask
+openai
+google-auth[requests]
+Flask-JWT-Extended
+python-dotenv

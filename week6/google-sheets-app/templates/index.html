@@ -1,0 +1,107 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>Google Sheets Web App</title>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 500px;
+            margin: 80px auto;
+            padding: 20px;
+        }
+
+        input, textarea, button {
+            width: 100%;
+            box-sizing: border-box;
+            padding: 12px;
+            margin-top: 10px;
+        }
+
+        button {
+            background-color: #6750a4;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+        }
+
+        #result {
+            margin-top: 20px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <h1>Google Sheets Web App</h1>
+
+    <form id="submitForm">
+        <input
+            type="text"
+            id="name"
+            placeholder="Enter your name"
+            required
+        >
+
+        <textarea
+            id="message"
+            placeholder="Enter your message"
+            required
+        ></textarea>
+
+        <button type="submit">Submit</button>
+    </form>
+
+    <p id="result"></p>
+
+    <script>
+        const form = document.getElementById("submitForm");
+        const result = document.getElementById("result");
+
+        form.addEventListener("submit", async (event) => {
+            event.preventDefault();
+
+            const name = document.getElementById("name").value;
+            const message = document.getElementById("message").value;
+
+            result.textContent = "Submitting...";
+
+            try {
+                const response = await fetch("/api/submit", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify({
+                        name: name,
+                        message: message
+                    })
+                });
+
+                if (!response.ok) {
+                    throw new Error("Submission failed");
+                }
+
+                const data = await response.json();
+
+                if (data.success) {
+                    result.textContent = "Data saved successfully!";
+                    form.reset();
+                } else {
+                    result.textContent = "Failed to save data";
+                }
+
+            } catch (error) {
+                result.textContent = "Error: " + error.message;
+            }
+        });
+    </script>
+
+</body>
+</html>
