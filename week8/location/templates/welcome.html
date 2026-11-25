@@ -1,0 +1,149 @@
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1">
+
+    <title>Welcome</title>
+
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: #f4f6f9;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        .container {
+            background: white;
+            padding: 40px;
+            border-radius: 12px;
+            box-shadow: 0 4px 20px #0001;
+            width: 650px;
+            max-width: 90%;
+            box-sizing: border-box;
+        }
+
+        h1 {
+            color: #222;
+            text-align: center;
+        }
+
+        p {
+            color: #666;
+            text-align: center;
+            line-height: 1.6;
+        }
+
+        h2 {
+            margin-top: 30px;
+            font-size: 20px;
+            color: #333;
+        }
+
+        .info-row {
+            display: flex;
+            justify-content: space-between;
+            gap: 20px;
+            padding: 12px 0;
+            border-bottom: 1px solid #eee;
+        }
+
+        .label {
+            color: #666;
+            font-weight: bold;
+        }
+
+        .value {
+            color: #222;
+            text-align: right;
+            overflow-wrap: anywhere;
+            min-width: 0;
+        }
+
+        .user-agent {
+            margin-top: 15px;
+            padding: 15px;
+            background: #f4f6f9;
+            border-radius: 8px;
+            overflow-wrap: anywhere;
+            font-size: 13px;
+            line-height: 1.6;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="container">
+
+        <h1>Welcome to My Flask Server!</h1>
+
+        <p>Your connection was successful.</p>
+
+        <p>
+            This website records basic connection
+            information for server monitoring,
+            including IP address, browser,
+            and visit time.
+        </p>
+
+        <h2>Your Connection Information</h2>
+
+        <div class="info-row">
+            <span class="label">IP Address</span>
+            <span class="value">{{ visitor.ip }}</span>
+        </div>
+
+        <div class="info-row">
+            <span class="label">IP Version</span>
+            <span class="value">{{ visitor.ip_version }}</span>
+        </div>
+
+        <div class="info-row">
+            <span class="label">Browser</span>
+            <span class="value">{{ visitor.browser }}</span>
+        </div>
+
+        <div class="info-row">
+            <span class="label">Operating System</span>
+            <span class="value">{{ visitor.os }}</span>
+        </div>
+
+        <div class="info-row">
+            <span class="label">Device</span>
+            <span class="value">{{ visitor.device }}</span>
+        </div>
+
+        <div class="info-row">
+            <span class="label">Private IP</span>
+            <span class="value">{{ visitor.private }}</span>
+        </div>
+
+        <div class="info-row">
+            <span class="label">Loopback IP</span>
+            <span class="value">{{ visitor.loopback }}</span>
+        </div>
+
+        <div class="info-row">
+            <span class="label">Visit Time</span>
+            <span class="value">{{ visitor.visited_at }}</span>
+        </div>
+
+        <h2>User-Agent</h2>
+
+        <div class="user-agent">
+            {{ visitor.user_agent }}
+        </div>
+
+    </div>
+
+</body>
+</html>

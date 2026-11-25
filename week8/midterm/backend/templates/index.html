@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>Week 7 Speech Tools</title>
+
+    <link
+        rel="stylesheet"
+        href="{{ url_for('static', filename='css/style.css') }}"
+    >
+
+    <script
+        src="{{ url_for('static', filename='js/app.js') }}"
+        defer
+    ></script>
+</head>
+<body>
+    <main
+        id="speech-app"
+        class="app"
+        data-google-client-id="{{ google_client_id }}"
+    >
+        <header class="page-header">
+            <h1>Speech Tools</h1>
+        </header>
+
+        <section class="account-card" aria-label="Account">
+            <div id="signed-out-panel">
+                <p class="account-label">Account</p>
+                <div id="google-button"></div>
+            </div>
+
+            <div id="signed-in-panel" class="profile" hidden>
+                <div class="profile-info">
+                    <p class="account-label">YOUR WORKSPACE</p>
+                    <p id="profile-name" class="profile-name"></p>
+                    <p
+                        id="profile-email"
+                        class="profile-email"
+                        hidden
+                    ></p>
+                </div>
+
+                <button
+                    id="logout-button"
+                    class="button secondary"
+                    type="button"
+                    disabled
+                >
+                    Logout
+                </button>
+            </div>
+
+            <p
+                id="auth-status"
+                class="status"
+                role="status"
+            >Loading Google Sign-In...</p>
+        </section>
+
+        <div class="tools">
+            <section class="card" aria-labelledby="stt-heading">
+                <h2 id="stt-heading">Speech to Text</h2>
+                <p class="hint">Record up to 60 seconds.</p>
+
+                <div class="actions">
+                    <button
+                        id="start-button"
+                        class="button"
+                        type="button"
+                        disabled
+                    >
+                        Start Recording
+                    </button>
+
+                    <button
+                        id="stop-button"
+                        class="button secondary stop"
+                        type="button"
+                        disabled
+                    >
+                        Stop Recording
+                    </button>
+                </div>
+
+                <p
+                    id="speech-status"
+                    class="status"
+                    role="status"
+                >Sign in to start recording.</p>
+
+                <label for="transcript">Transcript</label>
+                <textarea
+                    id="transcript"
+                    class="transcript"
+                    readonly
+                    placeholder="Your transcript will appear here."
+                ></textarea>
+
+                <button
+                    id="save-button"
+                    class="button secondary save-button"
+                    type="button"
+                    disabled
+                >
+                    Save Transcript
+                </button>
+
+                <p
+                    id="save-status"
+                    class="status"
+                    role="status"
+                ></p>
+            </section>
+
+            <section class="card" aria-labelledby="tts-heading">
+                <h2 id="tts-heading">Text to Speech</h2>
+
+                <label for="translation-source">Original Text</label>
+                <textarea
+                    id="translation-source"
+                    maxlength="2000"
+                    disabled
+                    placeholder="Enter text to translate."
+                ></textarea>
+
+                <div class="input-actions">
+                    <button
+                        id="translation-use-transcript-button"
+                        class="button secondary"
+                        type="button"
+                        disabled
+                    >
+                        Use Transcript
+                    </button>
+
+                    <span class="hint">Up to 2000 characters</span>
+                </div>
+
+                <div class="language-row">
+                    <div>
+                        <label for="target-language">Target Language</label>
+
+                        <select id="target-language" disabled>
+                            <option value="en">English</option>
+                            <option value="zh">Simplified Chinese</option>
+                            <option value="es" selected>Spanish</option>
+                            <option value="fr">French</option>
+                            <option value="de">German</option>
+                            <option value="ja">Japanese</option>
+                            <option value="ko">Korean</option>
+                            <option value="it">Italian</option>
+                            <option value="pt">Portuguese</option>
+                            <option value="ru">Russian</option>
+                            <option value="ar">Arabic</option>
+                            <option value="hi">Hindi</option>
+                        </select>
+                    </div>
+
+                    <button
+                        id="translate-button"
+                        class="button"
+                        type="button"
+                        disabled
+                    >
+                        Translate
+                    </button>
+                </div>
+
+                <p
+                    id="translation-status"
+                    class="status"
+                    role="status"
+                ></p>
+
+                <label for="translation-output">Translated Text</label>
+                <textarea
+                    id="translation-output"
+                    readonly
+                    placeholder="Your translation will appear here."
+                ></textarea>
+
+                <div class="actions">
+                    <button
+                        id="generate-speech-button"
+                        class="button"
+                        type="button"
+                        disabled
+                    >
+                        Generate Speech
+                    </button>
+
+                    <button
+                        id="save-translation-button"
+                        class="button secondary"
+                        type="button"
+                        disabled
+                    >
+                        Save Translation
+                    </button>
+                </div>
+
+                <p
+                    id="tts-status"
+                    class="status"
+                    role="status"
+                ></p>
+
+                <audio id="tts-audio" controls hidden></audio>
+
+                <p
+                    id="translation-save-status"
+                    class="status"
+                    role="status"
+                ></p>
+
+                <p class="hint voice-note">
+                    The voice you hear is AI-generated.
+                </p>
+            </section>
+        </div>
+    </main>
+</body>
+</html>

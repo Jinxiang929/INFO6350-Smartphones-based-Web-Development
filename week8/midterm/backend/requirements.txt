@@ -1,0 +1,7 @@
+Flask
+python-dotenv
+google-auth
+requests
+Flask-JWT-Extended
+openai
+gspread

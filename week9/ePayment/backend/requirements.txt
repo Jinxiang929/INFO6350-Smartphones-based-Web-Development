@@ -1,0 +1,5 @@
+Flask
+stripe
+google-auth
+requests
+python-dotenv
